@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>راهنمای بازی مافیا</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  @counter-style persian-digits {
+    system: numeric;
+    symbols: "۰" "۱" "۲" "۳" "۴" "۵" "۶" "۷" "۸" "۹";
+  }
+
+  body {
+    font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;
+    background: #0f0f1a;
+    color: #e0e0e0;
+    line-height: 1.9;
+    font-size: 15px;
+    direction: rtl;
+    text-align: right;
+  }
+
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* ── Header ─────────────────────────────────── */
+  h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #ff4444;
+    text-align: center;
+    padding: 32px 0 8px;
+    letter-spacing: 1px;
+    text-shadow: 0 0 24px rgba(255,68,68,0.4);
+  }
+
+  .subtitle {
+    text-align: center;
+    color: #888;
+    font-size: 13px;
+    margin-bottom: 48px;
+    border-bottom: 1px solid #2a2a3a;
+    padding-bottom: 24px;
+  }
+
+  /* ── Section headings ────────────────────────── */
+  h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(90deg, #1e1e2e, transparent);
+    padding: 12px 18px;
+    border-right: 4px solid #ff4444;
+    margin: 48px 0 20px;
+    border-radius: 0 8px 8px 0;
+  }
+
+  h3 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin: 32px 0 14px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #2a2a3a;
+  }
+
+  h3.mafia  { color: #ff6b6b; border-color: #ff6b6b44; }
+  h3.city   { color: #4fc3f7; border-color: #4fc3f744; }
+  h3.indep  { color: #ffd54f; border-color: #ffd54f44; }
+  h3.plain  { color: #aaa; }
+
+  h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #ccc;
+    margin: 24px 0 10px;
+  }
+
+  /* ── Paragraphs & lists ──────────────────────── */
+  p { margin-bottom: 12px; }
+
+  ul, ol {
+    padding-right: 22px;
+    margin-bottom: 12px;
+  }
+
+  li { margin-bottom: 6px; }
+
+  /* ── Tables ──────────────────────────────────── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 24px;
+    font-size: 14px;
+  }
+
+  th {
+    background: #1e1e30;
+    color: #ddd;
+    padding: 10px 14px;
+    font-weight: 600;
+    border: 1px solid #2e2e45;
+    text-align: right;
+  }
+
+  td {
+    padding: 10px 14px;
+    border: 1px solid #2a2a3a;
+    vertical-align: top;
+    line-height: 1.7;
+  }
+
+  tr:nth-child(even) td { background: #14141f; }
+  tr:nth-child(odd)  td { background: #101019; }
+
+  tr:hover td { background: #1a1a2e; }
+
+  td:first-child {
+    font-weight: 600;
+    white-space: nowrap;
+    color: #e8e8e8;
+    width: 160px;
+  }
+
+  /* role-name colors */
+  .mafia-role  td:first-child { color: #ff8a80; }
+  .city-role   td:first-child { color: #80d8ff; }
+  .indep-role  td:first-child { color: #ffe082; }
+
+  /* scoring tables — compact */
+  table.score th { background: #181828; }
+  table.score td:first-child { width: auto; white-space: normal; color: #ccc; font-weight: 400; }
+  table.score td.pts { text-align: center; font-weight: 700; white-space: nowrap; width: 90px; direction: ltr; }
+  table.score td.pts.pos { color: #69f0ae; }
+  table.score td.pts.neg { color: #ff5252; }
+
+  /* priority list */
+  ol.priority {
+    list-style: none;
+    padding-right: 0;
+    counter-reset: pri;
+  }
+  ol.priority li {
+    counter-increment: pri;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 14px;
+    background: #13131f;
+    border: 1px solid #2a2a3a;
+    border-radius: 6px;
+    margin-bottom: 6px;
+  }
+  ol.priority li::before {
+    content: counter(pri, persian-digits);
+    background: #ff4444;
+    color: #fff;
+    font-weight: 700;
+    font-size: 13px;
+    min-width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* step list for night order */
+  ol.steps { padding-right: 0; list-style: none; counter-reset: step; }
+  ol.steps li {
+    counter-increment: step;
+    padding: 9px 14px 9px 0;
+    border-bottom: 1px solid #1e1e2e;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  ol.steps li::before {
+    content: counter(step, persian-digits);
+    background: #2a2a45;
+    color: #aaa;
+    font-size: 12px;
+    font-weight: 700;
+    min-width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  /* ── Callout boxes ───────────────────────────── */
+  .callout {
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 16px 0;
+    border-right: 4px solid;
+    font-size: 14px;
+    line-height: 1.8;
+  }
+  .callout-info  { background: #0d1f2d; border-color: #4fc3f7; color: #b3e5fc; }
+  .callout-warn  { background: #1f1200; border-color: #ff9800; color: #ffe0b2; }
+  .callout-good  { background: #0d1f15; border-color: #69f0ae; color: #b9f6ca; }
+
+  /* ── Win condition cards ─────────────────────── */
+  .win-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 14px;
+    margin: 16px 0;
+  }
+  .win-card {
+    border-radius: 10px;
+    padding: 16px 18px;
+    border: 1px solid #2a2a3a;
+  }
+  .win-card .title { font-weight: 700; font-size: 15px; margin-bottom: 8px; }
+  .win-card p { font-size: 13px; color: #aaa; margin: 0; line-height: 1.7; }
+  .win-card.city   { background: #0a1a26; border-color: #4fc3f7; }
+  .win-card.city   .title { color: #4fc3f7; }
+  .win-card.mafia  { background: #1f0a0a; border-color: #ff6b6b; }
+  .win-card.mafia  .title { color: #ff6b6b; }
+  .win-card.indep  { background: #1a1500; border-color: #ffd54f; }
+  .win-card.indep  .title { color: #ffd54f; }
+  .win-card.chaos  { background: #12121f; border-color: #555; }
+  .win-card.chaos  .title { color: #888; }
+
+  /* ── Section divider ─────────────────────────── */
+  hr { border: none; border-top: 1px solid #2a2a3a; margin: 36px 0; }
+
+  /* ── Inline highlights ───────────────────────── */
+  strong { color: #fff; font-weight: 600; }
+  code {
+    background: #1e1e30;
+    color: #80cbc4;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-family: 'Courier New', monospace;
+  }
+
+  /* ── File table ──────────────────────────────── */
+  table.files td:first-child { color: #80cbc4; font-family: 'Courier New', monospace; font-size: 13px; width: 220px; }
+
+  /* ── Scoring sub-heading ─────────────────────── */
+  .score-section {
+    background: #12121e;
+    border: 1px solid #2a2a3a;
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-bottom: 18px;
+  }
+  .score-section h4 { margin-top: 0; color: #e0e0e0; }
+
+  /* ── TOC ─────────────────────────────────────── */
+  .toc {
+    background: #13131f;
+    border: 1px solid #2a2a3a;
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin-bottom: 36px;
+    font-size: 14px;
+  }
+  .toc h4 { color: #aaa; margin-bottom: 10px; font-size: 13px; letter-spacing: 1px; }
+  .toc a { color: #7986cb; text-decoration: none; }
+  .toc a:hover { color: #fff; text-decoration: underline; }
+  .toc ul { padding-right: 18px; }
+  .toc li { margin-bottom: 4px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <h1>🎭 راهنمای بازی مافیا</h1>
+  <p class="subtitle">این فایل قابلیت‌های هر نقش و دستورالعمل کلی بازی را توضیح می‌دهد.</p>
+
+  <!-- TOC -->
+  <div class="toc">
+    <h4>📋 فهرست مطالب</h4>
+    <ul>
+      <li><a href="#roles">نقش‌ها بر اساس تیم</a></li>
+      <li><a href="#flow">جریان بازی شب به شب</a></li>
+      <li><a href="#order">ترتیب اعمال قوانین در یک شب</a></li>
+      <li><a href="#win">شرط برد</a></li>
+      <li><a href="#scores">سیستم امتیازدهی</a></li>
+      <li><a href="#notes">نکات گرداننده</a></li>
+      <li><a href="#files">فایل‌های پروژه</a></li>
+    </ul>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <h2 id="roles">نقش‌ها بر اساس تیم</h2>
+
+  <!-- MAFIA -->
+  <h3 class="mafia">🔴 تیم مافیا</h3>
+  <table>
+    <thead><tr><th>نقش</th><th>توضیح</th></tr></thead>
+    <tbody>
+      <tr class="mafia-role">
+        <td>پدرخوانده مافیا</td>
+        <td>رهبر مافیا. تعداد جلیقه‌هایش (سپر در برابر شلیک <strong>حرفه‌ای، زودیاک، و جوکر</strong>) توسط گرداننده تنظیم می‌شود. هر شلیک از این سه نقش یک جلیقه را مصرف می‌کند؛ پس از تمام شدن جلیقه‌ها، شلیک بعدی او را حذف می‌کند (مگر همان شب توسط جراح نجات یافته باشد). در <strong>اولین</strong> استعلام کارآگاه «منفی» اعلام می‌شود؛ بار دوم به بعد «مثبت».</td>
+      </tr>
+      <tr class="mafia-role">
+        <td>مافیای جراح</td>
+        <td>هر شب یک عضو از تیم مافیا (یا خودش) را جراحی می‌کند. مافیای جراحی‌شده با شلیک <strong>حرفه‌ای، زودیاک، و جوکر</strong> کشته نمی‌شود. اگر پدرخوانده را جراحی کند، جلیقه‌اش نیز حفظ می‌ماند.</td>
+      </tr>
+      <tr class="mafia-role">
+        <td>مافیای هانی‌بال</td>
+        <td>هر شب نقش یک بازیکن را «می‌بندد». آن بازیکن در آن شب نمی‌تواند هیچ اکشنی انجام دهد و پیام «نقش شما بسته شد» دریافت می‌کند. <strong>نمی‌تواند هم‌تیمی‌های مافیا را انتخاب کند</strong> (اعضای مافیا در گزینه‌های او نمایش داده نمی‌شوند).</td>
+      </tr>
+      <tr class="mafia-role">
+        <td>مافیای بمب‌گذار</td>
+        <td><strong>فقط یک‌بار در کل بازی</strong> می‌تواند روی یک بازیکن بمب بگذارد و یک رمز (۱ تا ۴) انتخاب کند. نام هدف همان شب به همه اعلام می‌شود. روز بعد گرداننده با دکمه‌ی <strong>بمب‌گذار طراحی‌شده در اپلیکیشن</strong> رمز هدف را وارد می‌کند — اگر با رمز بمب‌گذار یکی باشد بمب خنثی می‌شود، وگرنه منفجر می‌شود و هدف حذف می‌شود. <strong>استثنا:</strong> اگر هدف نقش <strong>محافظ</strong> داشته باشد، حتی با رمز اشتباه هم بمب خنثی می‌شود.</td>
+      </tr>
+      <tr class="mafia-role">
+        <td>مافیای خریدار</td>
+        <td><strong>یک‌بار در کل بازی:</strong> می‌تواند یک بازیکن غیرمافیا را با حدس درست نقشش به تیم مافیا اضافه کند. ایمیل اکشن <strong>فقط زمانی</strong> ارسال می‌شود که حداقل یک مافیا از بازی حذف شده باشد. اگر حدس درست باشد، هدف از همان شب به مافیای ساده تبدیل می‌شود و اکشن خودش آن شب اعمال نمی‌شود. اگر اشتباه باشد، توانایی مصرف می‌شود. اگر در همان شب اقدام به خرید کند، تیر مافیا اعمال نمی‌شود.
+        <br><br>
+        <strong>اکشن دیگران روی بازیکن خریداری‌شده در همان شب:</strong> استعلام کارآگاه از او <strong>مثبت</strong> برمی‌گردد (چون از همان شب مافیاست)؛ شلیک حرفه‌ای به او <strong>او را حذف می‌کند</strong> (نه حرفه‌ای را، چون هدف دیگر شهروند نیست).</td>
+      </tr>
+      <tr class="mafia-role">
+        <td>مافیای ساده</td>
+        <td>عضو تیم مافیا بدون توانایی شخصی. اگر تنها مافیای زنده باشد، تیر تیم را او می‌زند.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h4>اولویت تیر مافیا</h4>
+  <p>سؤال «چه کسی را می‌زنی؟» تنها به یک عضو مافیا فرستاده می‌شود؛ به‌ترتیب اولویت:</p>
+  <ol class="priority" style="list-style-type: persian;">
+    <li>پدرخوانده مافیا</li>
+    <li>مافیای جراح</li>
+    <li>مافیای هانی‌بال</li>
+    <li>مافیای بمب‌گذار</li>
+    <li>مافیای خریدار</li>
+    <li>مافیای ساده</li>
+  </ol>
+  <div class="callout callout-warn" style="margin-top:14px">
+    اگر مافیای خریدار در همان شب اقدام به خرید کند، سؤال تیر مافیا به نفر بعدی در اولویت می‌رسد و تیر آن شب اعمال نمی‌شود.
+  </div>
+
+  <hr>
+
+  <!-- CITY -->
+  <h3 class="city">🔵 تیم شهروندان</h3>
+  <table>
+    <thead><tr><th>نقش</th><th>توضیح</th></tr></thead>
+    <tbody>
+      <tr class="city-role">
+        <td>کارآگاه</td>
+        <td>هر شب یک نفر را استعلام می‌کند. اگر مافیا باشد «مثبت» و اگر شهروند/مستقل باشد «منفی» اعلام می‌شود. استعلام پدرخوانده در بار اول منفی، بار دوم مثبت.</td>
+      </tr>
+      <tr class="city-role">
+        <td>بازپرس</td>
+        <td><strong>فقط یک‌بار در کل بازی</strong> می‌تواند دو نفر را به بازپرسی دعوت کند. اسامی همان شب به‌صورت عمومی اعلام می‌شود. <strong>روز بعد</strong> گرداننده دکمه‌ی <strong>بازپرس طراحی‌شده در اپلیکیشن</strong> را می‌زند: همه‌ی بازیکنان زنده (به‌جز دو نفر دعوت‌شده) رأی می‌دهند که کدام‌یک از آن دو حذف شود. نفری که رأی بیشتر بگیرد از بازی خارج می‌شود. <strong>حالات خاص:</strong> اگر بازپرس فقط یک نفر را در پاسخ شبانه‌اش نام ببرد، یا اگر یکی یا هر دوی دعوت‌شدگان در همان شب کشته شوند، برنامه به‌طور خودکار اعلامیه‌ی بازپرسی را حذف می‌کند و توانایی دعوت مصرف نمی‌شود — بازپرس می‌تواند در شب‌های بعدی دوباره دعوت کند.</td>
+      </tr>
+      <tr class="city-role">
+        <td>دکتر</td>
+        <td>هر شب یک نفر را از <strong>تیر مافیا، شلیک زودیاک، و شلیک جوکر</strong> نجات می‌دهد. می‌تواند خودش را هم نجات بدهد، اما <strong>فقط یک‌بار در کل بازی</strong>. بعد از آن، نامش از لیست گزینه‌هایش حذف می‌شود.</td>
+      </tr>
+      <tr class="city-role">
+        <td>جان‌سخت</td>
+        <td>تعداد سپرهایش توسط گرداننده تنظیم می‌شود. هر سپر یک شلیک (تیر مافیا، زودیاک، یا جوکر) را جذب می‌کند. در شب می‌تواند «استعلام بازی» بخواهد — اگر آره بزند، تعداد مافیا، شهروندان، و مستقل‌های کشته‌شده تاکنون در پیام عمومی اعلام می‌شود (مستقل فقط اگر حداقل یکی حذف شده باشد).</td>
+      </tr>
+      <tr class="city-role">
+        <td>حرفه‌ای</td>
+        <td>تعداد دفعات شلیک توسط گرداننده تنظیم می‌شود. شلیک به شهروند ← خودش حذف. شلیک به مافیا ← آن مافیا حذف (مگر پدرخوانده با جلیقه، یا جراحی‌شده). شلیک به مستقل ← هیچ اتفاقی نمی‌افتد. <strong>استثنا (مجهول):</strong> اگر شلیک حرفه‌ای همان شب باعث شود مجهول به شهروند تبدیل شود، حرفه‌ای آن شب حذف نمی‌شود (چون هدف هنگام شلیک هنوز شهروند شناخته‌شده نبود)؛ اما اگر شب‌های بعد دوباره به همان فرد (که حالا شهروند است) شلیک کند، حذف می‌شود.</td>
+      </tr>
+      <tr class="city-role">
+        <td>تفنگدار</td>
+        <td>هر شب یک تفنگ (اصلی یا مشقی) به یک نفر می‌دهد. سقف تفنگ اصلی توسط گرداننده تنظیم می‌شود. روز بعد گرداننده با دکمه‌ی <strong>تفنگدار طراحی‌شده در اپلیکیشن</strong> هدف را انتخاب می‌کند — اگر تفنگ اصلی بوده هدف حذف می‌شود و تیمش اعلام می‌شود؛ اگر مشقی بوده فقط اعلام می‌شود.</td>
+      </tr>
+      <tr class="city-role">
+        <td>محافظ</td>
+        <td>نقش <strong>منفعل</strong>: هیچ ایمیل اکشنی دریافت نمی‌کند. تنها اثرش این است که اگر هدف بمب بمب‌گذار قرار بگیرد، بمب همیشه خنثی می‌شود — حتی با رمز اشتباه.</td>
+      </tr>
+      <tr class="city-role">
+        <td>عطار</td>
+        <td>در شب فعالیتش به یک نفر «سم» می‌دهد. از شب بعد می‌تواند سم را هر شب به دیگری منتقل کند، اما <strong>فعال‌سازی سم فقط یک‌بار در کل بازی</strong> ممکن است — پس از فعال‌سازی، نگه‌دارنده کشته می‌شود و عطار دیگر هیچ ایمیل اکشنی دریافت نمی‌کند. <strong>مقاومت در برابر سم:</strong> سم مستقل‌ها (زودیاک و جوکر) را نمی‌کشد؛ فعال‌سازی روی آن‌ها بی‌اثر است. اگر نگه‌دارنده پدرخوانده با زره باشد، زره یک شارژ مصرف می‌کند و پدرخوانده نمی‌میرد. <strong>حالات خاص:</strong> اگر شب فعال‌سازی توسط هانی‌بال بسته شود، سم خودکار فعال می‌شود (توانایی مصرف می‌شود). اگر <strong>عطار خودش کشته شود</strong> در حالی که سم نزد کسی است، سم همان شب خودکار فعال می‌شود و نگه‌دارنده می‌میرد. اگر نگه‌دارنده به علتی غیر از فعال‌سازی بمیرد، سم از بازی خارج می‌شود و عطار می‌تواند دوباره سم بدهد.</td>
+      </tr>
+      <tr class="city-role">
+        <td>ماسون</td>
+        <td>هر شب می‌تواند یک بازیکن را بیدار کند — <strong>فقط در شب‌هایی که تعداد تیم ماسون از تعداد مافیا کمتر است.</strong> <strong>هر شهروندی</strong> (شهروند ساده، کارآگاه، دکتر، و سایر نقش‌های شهروند) را بیدار کند ← به تیم ماسون افزوده می‌شود و نقش اصلی‌اش را حفظ می‌کند. مافیا یا مستقل را بیدار کند ← تمام تیم ماسون حذف می‌شوند («مرگ ماسونی» اعلام می‌شود).</td>
+      </tr>
+      <tr class="city-role">
+        <td>فراماسون</td>
+        <td>جانشین ماسون. اگر ماسون زنده نباشد، سؤال بیداری به فراماسون می‌رسد (با همان شرط). اگر فقط یکی از ماسون/فراماسون در بازی باشد، در شب اول نیازی به ایمیل معرفی نیست.</td>
+      </tr>
+      <tr class="city-role">
+        <td>زره‌پوش</td>
+        <td>نقش <strong>نیمه‌منفعل</strong>: در شب‌ها ایمیل اکشن دریافت نمی‌کند. <strong>اولین باری</strong> که در رأی‌گیری روز (Vote Day یا Bazpors Vote) حذف شود، زره‌اش می‌شکند ولی از بازی خارج نمی‌شود. بار دوم مثل بقیه حذف می‌شود. شلیک تفنگدار و انفجار بمب، زره را نمی‌شکنند و مستقیماً حذف می‌کنند.</td>
+      </tr>
+      <tr class="city-role">
+        <td>کنستانتین</td>
+        <td>عضو تیم شهروندان با توانایی <strong>یک‌بار در کل بازی</strong>. هر شب (تا وقتی توانایی‌اش را مصرف نکرده) فهرستی <strong>فقط از بازیکنان حذف‌شده تا آن شب</strong> دریافت می‌کند (کشته‌شدگانِ همان شب در فهرست نیستند، چون نتایج آن شب هنوز پردازش نشده)؛ هر کدام را انتخاب کند، آن بازیکن <strong>دوباره به بازی برمی‌گردد</strong> و می‌تواند مثل قبل در رأی‌گیری روز، بازپرسی و اکشن‌های شب شرکت کند. اگر بازیکنِ بازگشته از قبل توانایی‌های مصرف‌نشده داشته باشد، همچنان می‌تواند از آن‌ها استفاده کند. در خلاصه‌ی نتایج شب اعلام می‌شود: «دیشب یک تولد داشتیم: X». (بازیکنانی که با کیک انضباطی حذف شده‌اند قابل بازگرداندن نیستند.)</td>
+      </tr>
+      <tr class="city-role">
+        <td>شهروند ساده</td>
+        <td>بدون توانایی شب. تنها در روزها رأی می‌دهد.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <hr>
+
+  <!-- INDEPENDENTS -->
+  <h3 class="indep">🟡 مستقل‌ها</h3>
+  <table>
+    <thead><tr><th>نقش</th><th>توضیح</th></tr></thead>
+    <tbody>
+      <tr class="indep-role">
+        <td>زودیاک مستقل</td>
+        <td>فقط در شب‌های فرد (شب ۳، ۵، ۷، …) فعال است و به یک نفر شلیک می‌کند. <strong>در شب‌ها در برابر هر نوع شلیک ایمن است</strong> (تیر مافیا، حرفه‌ای، زودیاک، جوکر) — شلیک شبانه او را نمی‌کشد.</td>
+      </tr>
+      <tr class="indep-role">
+        <td>نئو مستقل</td>
+        <td>هر شب دو سؤال دریافت می‌کند: ۱) روی چه کسی نفت می‌پاشی؟ و ۲) آیا کبریت می‌زنی؟ نفت‌پاشی‌ها <strong>تجمیع می‌شوند</strong> — هر شب یک نفر به لیست نفت‌پاشی‌شده‌ها اضافه می‌شود. وقتی کبریت می‌زند، <strong>تمام بازیکنانی که تا آن لحظه نفت‌پاشی شده‌اند و هنوز زنده‌اند</strong> همزمان از بازی خارج می‌شوند. پس از زدن کبریت، توانایی نفت‌پاشی برای همیشه از بین می‌رود.</td>
+      </tr>
+      <tr class="indep-role">
+        <td>جوکر مستقل</td>
+        <td>هر شب به یک نفر شلیک می‌کند. <strong>در شب‌ها در برابر هر نوع شلیک ایمن است</strong> (تیر مافیا، حرفه‌ای، زودیاک، جوکر) — شلیک شبانه او را نمی‌کشد.</td>
+      </tr>
+      <tr class="indep-role">
+        <td>مجهول</td>
+        <td>تا وقتی هیچ تیمی روی او اکشن نزده، مستقل بی‌اثری است. <strong>اولین شبی که مافیا روی او اکشن انجام دهد</strong> (تیر، جراحی، بمب، هانی‌بال، یا خرید موفق توسط مافیای خریدار)، به مافیای ساده تبدیل می‌شود. <strong>اگر فقط شهروند</strong> روی او اکشن بزند، به شهروند ساده تبدیل می‌شود. اولویت با تیم مافیاست. <strong>نکته:</strong> اگر تبدیل او به شهروند در اثر شلیک حرفه‌ای باشد، آن شب کسی حذف نمی‌شود (نه مجهول و نه حرفه‌ای)؛ مجهول به‌عنوان شهروند زنده می‌ماند.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ══════════════════════════════════════════ -->
+  <h2 id="flow">جریان بازی شب به شب</h2>
+
+  <h3 class="plain">☀️ روز ۱ — معارفه</h3>
+  <ul>
+    <li>گرداننده دکمه‌ی <strong>شروع بازی</strong> و سپس <strong>ارسال نقش‌ها</strong> را می‌زند.</li>
+    <li>همه‌ی بازیکنان ایمیلی دریافت می‌کنند که نقش خودشان را معرفی می‌کند.</li>
+    <li>روز اول با نام «معارفه» برگزار می‌شود: بازیکنان خودشان را معرفی می‌کنند و بازی آغاز می‌شود.</li>
+    <li><strong>در پایان روز معارفه رأی‌گیری برگزار نمی‌شود.</strong></li>
+  </ul>
+  <hr style="border-color:#333;margin:18px 0">
+
+  <h3 class="plain">🌑 شب ۱ — معرفی تیم‌ها</h3>
+  <ul>
+    <li>دکمه‌ی <strong>اجرای شب اول</strong> اجرا می‌شود.</li>
+    <li>اعضای تیم مافیا یکدیگر را می‌شناسند.</li>
+    <li>اگر هر دو نقش ماسون و فراماسون در بازی باشند، تیم ماسون نیز معرفی می‌شود.</li>
+    <li>برای بقیه‌ی بازیکنان (غیر از اعضای تیم مافیا و تیم ماسون) ایمیلی با این متن ارسال می‌شود: «امشب شب اول و معارفه است. مافیاها در حال شناسایی همدیگر هستند.»</li>
+  </ul>
+
+  <h3 class="plain">☀️ روز ۲ بازی</h3>
+  <ul>
+    <li>همه‌ی بازیکنان صحبت می‌کنند و به یکدیگر چالش می‌دهند.</li>
+    <li>در پایان روز رأی‌گیری برگزار می‌شود. کسانی که بیشتر از نصف آرا را بیاورند وارد <strong>مرحله‌ی دوم رأی‌گیری</strong> می‌شوند.</li>
+    <li>در مرحله‌ی دوم، کسی که بیشترین رأی را بیاورد <strong>و</strong> این تعداد بیشتر از نصف بازیکنان باشد از بازی حذف می‌شود.</li>
+  </ul>
+  <hr style="border-color:#333;margin:18px 0">
+
+  <h3 class="plain">🌙 شب ۲ به بعد — اکشن‌های شب</h3>
+  <ul>
+    <li>دکمه‌ی <strong>ارسال ایمیل شب n اُم</strong> اجرا می‌شود.</li>
+    <li>هر بازیکن دارای اکشن، ایمیل سؤال خود را با دکمه‌های انتخاب نام دریافت می‌کند. گزینه‌ها فقط <strong>بازیکنان زنده</strong> هستند.</li>
+    <li>بازیکنانی که آن شب اکشنی ندارند یا توانایی‌شان مصرف شده، به‌جای ایمیل خالی یک <strong>سؤال حدسِ نقش</strong> می‌گیرند (حدسِ درست ۰.۵+ امتیاز دارد — بخش حدس نقش).</li>
+    <li>وقتی همه پاسخ دادند، دکمه‌ی <strong>اجرای شب n اُم</strong> اجرا می‌شود.</li>
+  </ul>
+
+  <h3 class="plain">☀️ صبح بعد — اعلام نتایج</h3>
+  <p><strong>ایمیل عمومی</strong> به همه شامل:</p>
+  <ul>
+    <li>نام کشته‌شدگان شب</li>
+    <li>هدف سم عطار (اگر بود)</li>
+    <li>هدف بمب بمب‌گذار (اگر بود) — رمز اعلام نمی‌شود</li>
+    <li>اسامی دعوت‌شدگان به بازپرسی</li>
+    <li>اگر جان‌سخت درخواست استعلام داده بود: تعداد شهروندان، مافیاها، و مستقل‌های کشته‌شده تاکنون</li>
+  </ul>
+  <p><strong>ایمیل‌های خصوصی:</strong></p>
+  <ul>
+    <li><strong>کارآگاه</strong> — نتیجه استعلام</li>
+    <li><strong>گیرنده‌ی تفنگ</strong> — پیام دریافت تفنگ (نوع مخفی)</li>
+    <li><strong>هدف هانی‌بال</strong> — «نقش شما بسته شد»</li>
+    <li><strong>عضو جدید تیم ماسون</strong> — معرفی تیم</li>
+    <li><strong>مجهول</strong> — همان شبِ تبدیل، ایمیل «تغییر نقش» (تیم جدیدش)؛ و اگر به مافیا تبدیل شده باشد، ابتدای شب بعد فهرست هم‌تیمی‌های مافیا برایش ارسال می‌شود.</li>
+    <li><strong>مافیای خریداری‌شده</strong> — همان شب ایمیل «اکنون عضو تیم مافیا هستی» همراه با فهرست هم‌تیمی‌های زنده‌ی مافیا.</li>
+    <li><strong>اعضای تیم مافیا</strong> — وقتی بازیکنی (مجهولِ تبدیل‌شده یا خریداری‌شده) به تیم اضافه می‌شود، به اعضای فعلی مافیا اطلاع داده می‌شود که او اکنون هم‌تیمی‌شان است (هم‌زمان با لحظه‌ای که عضو جدید هم‌تیمی‌هایش را می‌شناسد).</li>
+  </ul>
+
+  <!-- ══════════════════════════════════════════ -->
+  <h2 id="order">ترتیب اعمال قوانین در یک شب</h2>
+  <ol class="steps" style="list-style-type: persian;">
+    <li><strong>هانی‌بال</strong> — نقش هدفش بسته می‌شود.</li>
+    <li><strong>تیر مافیا</strong> — تعیین تیرانداز و هدف.</li>
+    <li><strong>مافیای خریدار</strong> — اگر همان شب اقدام به خرید کند، تیر مافیا آن شب اعمال نمی‌شود و اکشن خرید پردازش می‌شود.</li>
+    <li><strong>جراح</strong> — هدف جراحی مشخص می‌شود.</li>
+    <li><strong>دکتر</strong> — هدف محافظت مشخص می‌شود.</li>
+    <li>تیر مافیا اعمال می‌شود (با توجه به دکتر و جان‌سخت).</li>
+    <li><strong>حرفه‌ای</strong> — شات می‌زند (با توجه به جراح، جلیقه، تیم).</li>
+    <li><strong>عطار</strong> — اکشن سم اعمال می‌شود.</li>
+    <li><strong>ماسون / فراماسون</strong> — بیداری اعمال می‌شود.</li>
+    <li><strong>کارآگاه</strong> — نتیجه استعلام محاسبه می‌شود.</li>
+    <li><strong>بازپرس</strong> — لیست دو نفر آماده می‌شود.</li>
+    <li><strong>تفنگدار</strong> — گیرنده و نوع تفنگ مشخص می‌شود.</li>
+    <li><strong>بمب‌گذار</strong> — هدف مشخص می‌شود.</li>
+    <li><strong>جان‌سخت</strong> — اگر «آره» انتخاب کرده، شمارنده‌ی کشته‌ها آماده می‌شود.</li>
+    <li><strong>کنستانتین</strong> — بازیکنِ حذف‌شده‌ی انتخاب‌شده دوباره به بازی بازگردانده می‌شود (یک‌بار در کل بازی).</li>
+  </ol>
+  <p style="font-size:13px;color:#aaa">اقدام‌های <strong>بمب‌گذار</strong>، <strong>تفنگدار</strong> و <strong>بازپرس</strong> همان شب فقط <strong>ثبت</strong> می‌شوند و روزِ بعد اجرا می‌شوند؛ هدف/انتخابِ آن‌ها پیش از اعمالِ کشته‌های شب ثبت می‌شود، بنابراین کشته‌شدن این نقش‌ها در همان شب، اکشن ثبت‌شده‌شان را لغو نمی‌کند.</p>
+
+  <!-- ══════════════════════════════════════════ -->
+  <h2 id="win">شرط برد</h2>
+  <div class="win-grid">
+    <div class="win-card city">
+      <div class="title">🔵 تیم شهروندان</div>
+      <p>وقتی تمام اعضای مافیا و مستقل‌ها (زودیاک، نئو، جوکر) حذف شده باشند. این شرط به‌صورت <strong>خودکار</strong> بررسی می‌شود — چه آخرین مافیا/مستقل با رأی‌گیری روز حذف شود، چه در نتیجه‌ی <strong>اجرای شب</strong> و چه با اکشن‌های روز (شلیک تفنگدار یا بمب مافیا) — و جدول امتیازات بلافاصله برای همه ایمیل می‌شود (نیازی به دکمه‌ی ارسال امتیازات نیست).</p>
+    </div>
+    <div class="win-card mafia">
+      <div class="title">🔴 تیم مافیا</div>
+      <p>وقتی تعداد مافیای زنده حداقل برابر تعداد شهروندان زنده شود.</p>
+      <p style="margin-top:8px">حالت <strong>تساوی</strong> (تعداد مافیای زنده برابر تعداد شهروندان زنده — یعنی ۲ به ۲، ۳ به ۳، ۴ به ۴ و …، در حالتی که فقط مافیا و شهروند در بازی مانده‌اند) با تنظیم <strong>«بازی ۲ به ۲ ادامه دارد»</strong> در صفحه‌ی تنظیمات کنترل می‌شود:</p>
+      <ul style="margin:8px 0 0 0;padding-right:18px;font-size:13px;line-height:1.8;color:#aaa">
+        <li><strong>بله</strong> (پیش‌فرض): بازی در حالت تساوی تمام نمی‌شود و ادامه می‌یابد؛ رأی‌گیری روز برگزار می‌شود تا شهروندان فرصت داشته باشند یک مافیا را حذف کرده و تساوی را بشکنند. در این حالت مافیا تنها زمانی برنده می‌شود که تعدادش از شهروندان <strong>بیشتر</strong> شود (مافیا &gt; شهروند).</li>
+        <li><strong>خیر</strong>: رسیدن به تساوی (مافیا ≥ شهروند) بلافاصله برد مافیا محسوب می‌شود و بازی همان‌جا تمام می‌شود.</li>
+      </ul>
+      <p style="margin-top:8px;font-size:12px;color:#888">توجه: این شرط پس از هر حذف به‌صورت <strong>خودکار</strong> بررسی می‌شود — چه در نتیجه‌ی <strong>اجرای شب</strong>، چه با رأی‌گیری روز (رأی‌گیری روز یا رأی‌گیری بازپرسی) و چه با اکشن‌های روز (شلیک تفنگدار یا بمب مافیا) — و در صورت برقرار بودن شرط، برنامه برد مافیا را اعلام کرده و جدول امتیازات را برای همه‌ی بازیکنان ایمیل می‌کند. برتری آشکار مافیا (مافیا &gt; شهروند) همیشه برد است؛ تساویِ مافیا = شهروند فقط وقتی برد محسوب می‌شود که این تنظیم روی <strong>خیر</strong> باشد. اگر مستقلی هنوز زنده باشد، این اعلام خودکار انجام نمی‌شود چون مستقل‌ها شرط برد جداگانه دارند.</p>
+    </div>
+    <div class="win-card indep">
+      <div class="title">🟡 مستقل‌ها (زودیاک، نئو، جوکر)</div>
+      <p>در هر یک از حالت‌های زیر برنده می‌شوند، مستقل از برد یا باخت تیم‌های دیگر:</p>
+      <ul style="margin:8px 0 0 0;padding-right:18px;font-size:14px;line-height:1.8">
+        <li>تمام شهروندان حذف شده باشند — مستقل <strong>فوری</strong> برنده می‌شود، حتی اگر مافیا هنوز زنده باشد.</li>
+        <li>دقیقاً ۲ بازیکن زنده بمانند: ۱ مستقل + ۱ شهروند.</li>
+        <li>دقیقاً ۳ بازیکن زنده بمانند: ۲ مافیا + ۱ مستقل (بدون شهروند).</li>
+      </ul>
+      <p style="margin-top:8px;font-size:12px;color:#888">توجه: این شرط‌ها نیز پس از هر حذف به‌صورت <strong>خودکار</strong> بررسی می‌شوند — چه در نتیجه‌ی <strong>اجرای شب</strong>، چه با رأی‌گیری روز (رأی‌گیری روز یا رأی‌گیری بازپرسی) و چه با اکشن‌های روز (شلیک تفنگدار یا بمب مافیا) — و در صورت تحقق، برد مستقل اعلام و جدول امتیازات ایمیل می‌شود. تا وقتی حداقل یک مستقل زنده باشد، برد خودکار مافیا/شهروند اعلام نمی‌شود چون مستقل‌ها اولویت دارند.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <h2 id="scores">سیستم امتیازدهی</h2>
+
+  <div class="callout callout-info">
+    در پایان بازی، دکمه‌ی <strong>ارسال امتیازات</strong> جدول امتیازات را محاسبه کرده و یک ایمیل رنگی برای همه‌ی بازیکنان ارسال می‌کند.
+  </div>
+
+  <!-- 1. Win -->
+  <div class="score-section">
+    <h4>۱. برد بازی</h4>
+    <table class="score">
+      <thead><tr><th>شرط</th><th>امتیاز</th></tr></thead>
+      <tbody>
+        <tr><td>عضو تیم برنده بودن (زنده یا حذف‌شده)</td><td class="pts pos">+۲</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 2. Survival -->
+  <div class="score-section">
+    <h4>۲. بقا — زنده ماندن شب</h4>
+    <table class="score">
+      <thead><tr><th>شرط</th><th>امتیاز</th></tr></thead>
+      <tbody>
+        <tr><td>زنده بودن در ابتدای هر شب</td><td class="pts pos">+۰.۵ / شب</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:13px;color:#888;margin-top:8px">بازیکنی که در روز n اُم حذف شده، امتیاز شب n اُم و بعد را دریافت نمی‌کند (روز n اُم قبل از شب n اُم است).</p>
+  </div>
+
+  <!-- 3. Day Vote -->
+  <div class="score-section">
+    <h4>۳. رأی‌گیری روز</h4>
+    <table class="score">
+      <thead><tr><th>شرط</th><th>دور اول</th><th>دور دوم</th></tr></thead>
+      <tbody>
+        <tr><td>رأی به مخالف (تیم دیگر)</td><td class="pts pos">+۰.۵</td><td class="pts pos">+۱</td></tr>
+        <tr><td>رأی به هم‌تیمی</td><td class="pts neg">−۰.۵</td><td class="pts neg">−۱</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 4. Bazpors -->
+  <div class="score-section">
+    <h4>۴. رأی‌گیری بازپرسی (بازپرس طراحی‌شده در اپلیکیشن)</h4>
+    <p style="font-weight:600;margin-bottom:8px">۱.۴. بازپرس — کیفیت دعوت‌شدگان:</p>
+    <table class="score">
+      <thead><tr><th>ترکیب دو نفر دعوت‌شده</th><th>امتیاز</th></tr></thead>
+      <tbody>
+        <tr><td>۲ مافیا، یا ۱ مافیا + ۱ مستقل</td><td class="pts pos">+۲</td></tr>
+        <tr><td>۱ مافیا یا ۱ مستقل (دیگری شهروند)</td><td class="pts pos">+۱</td></tr>
+        <tr><td>۲ شهروند</td><td class="pts neg">−۱</td></tr>
+      </tbody>
+    </table>
+    <p style="font-weight:600;margin:14px 0 8px">۲.۴. همه‌ی رأی‌دهندگان — رأی در بازپرسی:</p>
+    <table class="score">
+      <thead><tr><th>شرط</th><th>امتیاز</th></tr></thead>
+      <tbody>
+        <tr><td>رأی به مخالف</td><td class="pts pos">+۰.۵</td></tr>
+        <tr><td>رأی به هم‌تیمی</td><td class="pts neg">−۰.۵</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 5. Tofangdar Day -->
+  <div class="score-section">
+    <h4>۵. شلیک تفنگدار در روز (تفنگدار طراحی‌شده در اپلیکیشن)</h4>
+    <table class="score">
+      <thead><tr><th>شرط</th><th>تفنگ اصلی</th><th>تفنگ مشقی</th></tr></thead>
+      <tbody>
+        <tr><td>شلیک به مخالف</td><td class="pts pos">+۱</td><td class="pts pos">+۰.۵</td></tr>
+        <tr><td>شلیک به هم‌تیمی</td><td class="pts neg">−۱</td><td class="pts neg">−۰.۵</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 6. Bombgozar Day -->
+  <div class="score-section">
+    <h4>۶. بمب‌گذار در روز (بمب‌گذار طراحی‌شده در اپلیکیشن)</h4>
+    <table class="score">
+      <thead><tr><th>شرط</th><th>امتیاز</th></tr></thead>
+      <tbody>
+        <tr><td>هدف بمب رمز را درست حدس بزند (خنثی‌سازی)</td><td class="pts pos">+۲ برای هدف</td></tr>
+        <tr><td>بمب منفجر شود — هدف مخالف تیم بمب‌گذار</td><td class="pts pos">+۱ برای بمب‌گذار</td></tr>
+        <tr><td>بمب منفجر شود — هدف هم‌تیمی بمب‌گذار</td><td class="pts neg">−۱ برای بمب‌گذار</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 7. Night -->
+  <div class="score-section">
+    <h4>۷. اکشن‌های شب</h4>
+
+    <p style="font-weight:600;margin-bottom:6px">۱.۷. تیر مافیا:</p>
+    <table class="score">
+      <tbody>
+        <tr><td>کشتن موفق غیرمافیا — تیرانداز</td><td class="pts pos">+۱</td></tr>
+        <tr><td>کشتن موفق غیرمافیا — هر هم‌تیمی دیگر</td><td class="pts pos">+۰.۵</td></tr>
+        <tr><td>کشتن هم‌تیمی مافیا (هدف اشتباه) — همه‌ی مافیا</td><td class="pts neg">−۰.۵</td></tr>
+      </tbody>
+    </table>
+
+    <p style="font-weight:600;margin:14px 0 6px">۲.۷. دکتر:</p>
+    <table class="score">
+      <tbody>
+        <tr><td>نجات شهروندی که هدف تیر مافیا، زودیاک، یا جوکر بوده</td><td class="pts pos">+۱</td></tr>
+      </tbody>
+    </table>
+
+    <p style="font-weight:600;margin:14px 0 6px">۳.۷. حرفه‌ای:</p>
+    <table class="score">
+      <tbody>
+        <tr><td>شلیک به مافیا یا مستقل</td><td class="pts pos">+۱</td></tr>
+        <tr><td>شلیک به شهروند</td><td class="pts neg">−۱</td></tr>
+      </tbody>
+    </table>
+
+    <p style="font-weight:600;margin:14px 0 6px">۴.۷. کارآگاه:</p>
+    <table class="score">
+      <tbody>
+        <tr><td>استعلام مافیا (غیر پدرخوانده)</td><td class="pts pos">+۱</td></tr>
+        <tr><td>استعلام مستقل، یا استعلام پدرخوانده</td><td class="pts pos">+۰.۵</td></tr>
+      </tbody>
+    </table>
+
+    <p style="font-weight:600;margin:14px 0 6px">۵.۷. مافیای جراح:</p>
+    <table class="score">
+      <tbody>
+        <tr><td>نجات هم‌تیمی مافیا از شلیک (زودیاک، جوکر، یا حرفه‌ای)</td><td class="pts pos">+۱</td></tr>
+      </tbody>
+    </table>
+
+    <p style="font-weight:600;margin:14px 0 6px">۶.۷. زودیاک / جوکر مستقل:</p>
+    <table class="score">
+      <tbody>
+        <tr><td>شلیک موفق (هدف کشته شود)</td><td class="pts pos">+۱</td></tr>
+      </tbody>
+    </table>
+
+    <p style="font-weight:600;margin:14px 0 6px">۷.۷. نئو مستقل:</p>
+    <table class="score">
+      <tbody>
+        <tr><td>نفت‌پاشی روی یک نفر</td><td class="pts pos">+۰.۵</td></tr>
+        <tr><td>کبریت زدن — به ازای هر نفر سوخته</td><td class="pts pos">+۱</td></tr>
+      </tbody>
+    </table>
+
+    <p style="font-weight:600;margin:14px 0 6px">۸.۷. لمس اول مجهول:</p>
+    <table class="score">
+      <tbody>
+        <tr><td>مافیا لمس کند — هر بازیکنی که اکشنش مجهول را لمس کرد (تیر مافیا، جراح، بمب‌گذار، هانی‌بال)</td><td class="pts pos">+۱</td></tr>
+        <tr><td>مافیا لمس کند — هر هم‌تیمی دیگر</td><td class="pts pos">+۰.۵</td></tr>
+        <tr><td>شهروند لمس کند — هر بازیکنی که اکشنش مجهول را لمس کرد (دکتر، حرفه‌ای، عطار، کارآگاه، تفنگدار، بازپرس، ماسون/فراماسون)</td><td class="pts pos">+۱</td></tr>
+      </tbody>
+    </table>
+
+    <p style="font-weight:600;margin:14px 0 6px">۹.۷. ماسون / فراماسون:</p>
+    <table class="score">
+      <tbody>
+        <tr><td>بیداری موفق — عامل بیداری</td><td class="pts pos">+۱</td></tr>
+        <tr><td>بیداری موفق — عضو دیگر تیم ماسون</td><td class="pts pos">+۰.۵</td></tr>
+        <tr><td>بیداری اشتباه — عامل بیداری</td><td class="pts neg">−۱</td></tr>
+        <tr><td>بیداری اشتباه — عضو دیگر تیم ماسون</td><td class="pts neg">−۰.۵</td></tr>
+      </tbody>
+    </table>
+
+    <p style="font-weight:600;margin:14px 0 6px">۱۰.۷. مافیای خریدار:</p>
+    <table class="score">
+      <tbody>
+        <tr><td>خرید موفق (حدس درست نقش)</td><td class="pts pos">+۲</td></tr>
+      </tbody>
+    </table>
+
+    <p style="font-weight:600;margin:14px 0 6px">۱۱.۷. مافیای هانی‌بال:</p>
+    <table class="score">
+      <tbody>
+        <tr><td>بلوک کردن هر یک از نقش‌های کلیدی (کارآگاه، دکتر، حرفه‌ای، جوکر، زودیاک، نئو، تفنگدار، بازپرس، عطار، ماسون، فراماسون، کنستانتین) — امتیاز پایه</td><td class="pts pos">+۰.۵</td></tr>
+        <tr><td>بلوک کردن جان‌سخت</td><td class="pts pos">+۱</td></tr>
+      </tbody>
+    </table>
+    <p style="margin:8px 0 6px;font-size:13px;color:#aaa">علاوه بر امتیاز پایه، اگر بلوک یک اکشن مهمِ ضدِمافیا را در همان شب خنثی کند، <strong>۱+ امتیاز اضافه</strong> داده می‌شود (بر اساس اکشنی که بازیکنِ بسته‌شده قصد انجامش را داشت):</p>
+    <table class="score">
+      <tbody>
+        <tr><td>بلوک حرفه‌ای که قصد شلیک به یک عضو مافیا را داشت</td><td class="pts pos">+۱</td></tr>
+        <tr><td>بلوک دکتر که می‌خواست شهروندی را که همان شب هدف تیر مافیا، زودیاک یا جوکر بود نجات دهد</td><td class="pts pos">+۱</td></tr>
+        <tr><td>بلوک کارآگاه که قصد استعلام یک عضو مافیا را داشت</td><td class="pts pos">+۱</td></tr>
+        <tr><td>بلوک جوکر یا زودیاک که قصد شلیک به یک عضو مافیا را داشت</td><td class="pts pos">+۱</td></tr>
+        <tr><td>بلوک تفنگدار که می‌خواست «تفنگ اصلی» به یک شهروند بدهد</td><td class="pts pos">+۱</td></tr>
+        <tr><td>بلوک بازپرس که قصد دعوت ۱ یا ۲ عضو مافیا به بازپرسی را داشت</td><td class="pts pos">+۱</td></tr>
+        <tr><td>بلوک عطار که می‌خواست به یک عضو مافیا سم بدهد</td><td class="pts pos">+۱</td></tr>
+        <tr><td>بلوک ماسون/فراماسون که می‌خواست یک شهروند واقعی را به تیم خود اضافه کند</td><td class="pts pos">+۱</td></tr>
+        <tr><td>بلوک کنستانتین که می‌خواست یک شهروند را به بازی بازگرداند</td><td class="pts pos">+۱</td></tr>
+      </tbody>
+    </table>
+    <p style="margin:6px 0;font-size:12px;color:#888">مثال: بلوک حرفه‌ای که قصد زدن مافیا را داشت ⟵ ۰.۵ پایه + ۱ مؤثر = مجموعاً ۱.۵ امتیاز. بلوک جان‌سخت ⟵ ۱ امتیاز.</p>
+
+    <p style="font-weight:600;margin:14px 0 6px">۱۲.۷. عطار:</p>
+    <table class="score">
+      <tbody>
+        <tr><td>دادن سم به مافیا یا مستقل</td><td class="pts pos">+۰.۵</td></tr>
+        <tr><td>دادن سم به شهروند</td><td class="pts neg">−۰.۵</td></tr>
+        <tr><td>فعال‌سازی سم روی مافیا یا مستقل</td><td class="pts pos">+۱</td></tr>
+        <tr><td>فعال‌سازی سم روی شهروند</td><td class="pts neg">−۱</td></tr>
+      </tbody>
+    </table>
+    <p style="margin:6px 0;font-size:12px;color:#888">استثنا: اگر دادن سم همان شب باعث تبدیل مجهول به شهروند شود، جریمه‌ی «سم به شهروند» اعمال نمی‌شود (۰ امتیاز)، چون هدف هنگام سم‌دادن شهروندِ شناخته‌شده نبوده است.</p>
+
+    <p style="font-weight:600;margin:14px 0 6px">۱۳.۷. مافیای بمب‌گذار — کاشت بمب در شب:</p>
+    <table class="score">
+      <tbody>
+        <tr><td>کاشت بمب روی مخالف (شهروند یا مستقل)</td><td class="pts pos">+۰.۵</td></tr>
+        <tr><td>کاشت بمب روی هم‌تیمی</td><td class="pts neg">−۰.۵</td></tr>
+      </tbody>
+    </table>
+
+    <p style="font-weight:600;margin:14px 0 6px">۱۴.۷. تفنگدار — دادن تفنگ در شب:</p>
+    <table class="score">
+      <thead><tr><th>شرط</th><th>تفنگ اصلی</th><th>تفنگ مشقی</th></tr></thead>
+      <tbody>
+        <tr><td>دادن به شهروند</td><td class="pts pos">+۱</td><td class="pts pos">+۰.۵</td></tr>
+        <tr><td>دادن به مافیا یا مستقل</td><td class="pts neg">−۱</td><td class="pts neg">−۰.۵</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 8. Jansakht -->
+  <div class="score-section">
+    <h4>۸. جان‌سخت — استقامت و استعلام</h4>
+    <table class="score">
+      <tbody>
+        <tr><td>هر شلیک جذب‌شده توسط سپر</td><td class="pts pos">+۰.۵ / بار</td></tr>
+        <tr><td>هر بار استفاده از استعلام</td><td class="pts pos">+۰.۵ / بار</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 9. Zereh -->
+  <div class="score-section">
+    <h4>۹. زره‌پوش — شکستن زره در رأی‌گیری</h4>
+    <table class="score">
+      <tbody>
+        <tr><td>زره توسط رأی‌گیری روز (رأی‌گیری روز یا رأی‌گیری بازپرسی) شکسته شود</td><td class="pts pos">+۲</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 10. Disciplinary kick -->
+  <div class="score-section">
+    <h4>۱۰. کیک انضباطی</h4>
+    <table class="score">
+      <tbody>
+        <tr><td>بازیکنی که به دلیل تخلف انضباطی از بازی اخراج شود (تیک‌خورده در ارسال ایمیل شب n اُم)</td><td class="pts neg">−۲</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 11. Constantin -->
+  <div class="score-section">
+    <h4>۱۱. کنستانتین</h4>
+    <table class="score">
+      <tbody>
+        <tr><td>بازگرداندن یک شهروند به بازی</td><td class="pts pos">+۱</td></tr>
+        <tr><td>بازگرداندن یک عضو مافیا یا مستقل به بازی</td><td class="pts neg">−۱</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 12. Chaos -->
+  <div class="score-section">
+    <h4>۱۲. کایوس (دست‌دادن)</h4>
+    <p style="margin:6px 0;font-size:13px;color:#aaa">این امتیازها <strong>علاوه بر</strong> امتیاز ۲+ تیم برنده هستند. در هر جدول، عدد، امتیازِ <strong>دست‌دهنده</strong> (ردیف) برای دست‌دادن با <strong>گیرنده</strong> (ستون) است. در دور دوم فقط دو نفرِ جفتِ نهایی امتیاز می‌گیرند.</p>
+
+    <p style="font-weight:600;margin:14px 0 6px">۱.۱۲. کایوس با ۲ شهروند + ۱ مافیا</p>
+    <table class="score">
+      <thead><tr><th>دست‌دهنده ↓ / گیرنده ←</th><th>شهروند</th><th>مافیا</th></tr></thead>
+      <tbody>
+        <tr><td>شهروند (دور ۱ و ۲)</td><td class="pts pos">+۰.۵</td><td class="pts neg">−۰.۵</td></tr>
+        <tr><td>مافیا (دور ۱ و ۲)</td><td class="pts pos">+۰.۵</td><td>۰</td></tr>
+      </tbody>
+    </table>
+
+    <p style="font-weight:600;margin:14px 0 6px">۲.۱۲. کایوس با ۲ شهروند + ۱ مستقل</p>
+    <table class="score">
+      <thead><tr><th>دست‌دهنده ↓ / گیرنده ←</th><th>شهروند</th><th>مستقل</th></tr></thead>
+      <tbody>
+        <tr><td>شهروند (دور ۱ و ۲)</td><td class="pts pos">+۰.۵</td><td class="pts neg">−۰.۵</td></tr>
+        <tr><td>مستقل (دور ۱ و ۲)</td><td class="pts pos">+۰.۵</td><td>۰</td></tr>
+      </tbody>
+    </table>
+
+    <p style="font-weight:600;margin:14px 0 6px">۳.۱۲. کایوس با ۲ شهروند + ۲ مافیا</p>
+    <table class="score">
+      <thead><tr><th>دست‌دهنده ↓ / گیرنده ←</th><th>شهروند</th><th>مافیا</th></tr></thead>
+      <tbody>
+        <tr><td>شهروند (دور ۱ و ۲)</td><td class="pts pos">+۰.۵</td><td class="pts neg">−۰.۵</td></tr>
+        <tr><td>مافیا (دور ۱ و ۲)</td><td class="pts pos">+۰.۵</td><td class="pts neg">−۰.۵</td></tr>
+      </tbody>
+    </table>
+
+    <p style="font-weight:600;margin:14px 0 6px">۴.۱۲. کایوس با ۱ شهروند + ۱ مافیا + ۱ مستقل — دور اول</p>
+    <table class="score">
+      <thead><tr><th>دست‌دهنده ↓ / گیرنده ←</th><th>شهروند</th><th>مافیا</th><th>مستقل</th></tr></thead>
+      <tbody>
+        <tr><td>شهروند</td><td>۰</td><td class="pts pos">+۰.۵</td><td class="pts pos">+۰.۵</td></tr>
+        <tr><td>مافیا</td><td class="pts pos">+۰.۵</td><td>۰</td><td class="pts neg">−۰.۵</td></tr>
+        <tr><td>مستقل</td><td class="pts pos">+۰.۵</td><td class="pts neg">−۰.۵</td><td>۰</td></tr>
+      </tbody>
+    </table>
+    <p style="font-weight:600;margin:14px 0 6px">۴.۱۲. کایوس با ۱ شهروند + ۱ مافیا + ۱ مستقل — دور دوم</p>
+    <table class="score">
+      <thead><tr><th>دست‌دهنده ↓ / گیرنده ←</th><th>شهروند</th><th>مافیا</th><th>مستقل</th></tr></thead>
+      <tbody>
+        <tr><td>شهروند</td><td>۰</td><td class="pts neg">−۰.۵</td><td class="pts neg">−۰.۵</td></tr>
+        <tr><td>مافیا</td><td class="pts pos">+۰.۵</td><td>۰</td><td class="pts neg">−۰.۵</td></tr>
+        <tr><td>مستقل</td><td class="pts pos">+۰.۵</td><td class="pts neg">−۰.۵</td><td>۰</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 13. Role guess -->
+  <div class="score-section">
+    <h4>۱۳. حدس نقش (بازیکنان بی‌اکشن)</h4>
+    <p style="margin:6px 0;font-size:13px;color:#aaa">هر بازیکن زنده‌ای که آن شب اکشنی ندارد یا توانایی‌اش را قبلاً مصرف کرده، به‌جای ایمیلِ خالی یک سؤالِ حدس می‌گیرد: «نقشِ X متعلق به کدام بازیکن است؟» (X یک نقشِ تصادفی از نقش‌های همان بازی به‌جز نقشِ خودِ او؛ گزینه‌ها همه‌ی بازیکنان به‌جز خودش). برای اعضای تیم مافیا، نقش‌های مافیا هم از سؤال و هم از گزینه‌ها حذف می‌شوند (چون هم‌تیمی‌های خود را می‌شناسند). هیچ بازخوردی به بازیکن داده نمی‌شود.</p>
+    <table class="score">
+      <tbody>
+        <tr><td>حدسِ درستِ نقش</td><td class="pts pos">+۰.۵</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <h2 id="notes">نکات گرداننده (هاست)</h2>
+  <ul>
+    <li>پیش از هر شب، در دکمه‌ی <strong>ارسال ایمیل شب n اُم</strong>، لیست بازیکنان حذف‌شده به دلیل کیک انضباطی را تیک بزنید (این بازیکنان ۲- امتیاز می‌گیرند).</li>
+    <li>برای شروع بازی جدید، دکمه‌ی <strong>شروع بازی</strong> را بزنید. این کار فایل‌های <code>game_state.json</code> و <code>scores_log.json</code> را پاک می‌کند و Sheet پاسخ‌ها را ریست می‌کند.</li>
+    <li>پاسخ‌های هر شب در Sheet با تگ نقش ثبت می‌شود (مثلاً <code>تیر مافیا</code>، <code>بیداری ماسون</code>، <code>کبریت نئو</code>).</li>
+    <li>در روزِ <strong>کایوس</strong> دکمه‌ی <strong>کایوس</strong> را بزنید: در دور اول هر بازیکن زنده انتخاب می‌کند با چه کسی دست بدهد و پرامتیازترین فرد بالا می‌آید (در صورت تساوی، دوباره انتخاب می‌شود)؛ در دور دوم آن فرد یک نفر را برای دست‌دادن انتخاب می‌کند. برنده بر اساس جفتِ نهایی تعیین می‌شود: دو شهروند با هم ← شهروند؛ شهروند با مافیا ← مافیا؛ شهروند با مستقل ← مستقل؛ و اگر مافیا و مستقل با هم دست بدهند ← <strong>شهروند</strong> برنده می‌شود (پس شهروند بهتر است نفرِ موردِ اعتماد نباشد تا شانس برد داشته باشد). سپس برنده اعلام و جدول امتیازات برای همه ارسال می‌شود.</li>
+    <li>در پایان هر بازی دکمه‌ی <strong>رنکینگ</strong> را بزنید: نتیجه‌ی همان بازی به‌صورت خودکار (بدون پرسیدن برنده) در تاریخچه‌ی رتبه‌بندی ثبت می‌شود و رتبه‌بندی کل (تعداد بازی و <strong>میانگین امتیاز</strong> هر بازیکن) در فایل <code>overall_ranking.csv</code> به‌روزرسانی می‌شود. هر بازی فقط یک‌بار ثبت می‌شود و این تاریخچه با شروع بازی پاک نمی‌شود.</li>
+  </ul>
+
+  <!-- ══════════════════════════════════════════ -->
+  <h2 id="files">فایل‌های پروژه</h2>
+  <table class="files">
+    <thead><tr><th>فایل</th><th>کاربرد</th></tr></thead>
+    <tbody>
+      <tr><td>mafia_app.py</td><td>اپلیکیشن دسکتاپ اصلی با دکمه‌های هر مرحله (ارسال نقش‌ها، اجرای شب، ارسال ایمیل شب، رأی‌گیری‌ها، ارسال امتیازات و …)</td></tr>
+      <tr><td>4-Night Results.py</td><td>پردازش پاسخ‌های شب، اعمال قوانین، ارسال نتایج و ذخیره‌ی رویدادها (پشت دکمه‌ی اجرای شب)</td></tr>
+      <tr><td>7-Night N Actions.py</td><td>ارسال ایمیل اکشن‌های شب (شب‌های ۲ به بعد) از طریق Apps Script (پشت دکمه‌ی ارسال ایمیل شب n اُم)</td></tr>
+      <tr><td>5-Tofangdar Day.py</td><td>اعلام روزِ شلیک تفنگدار</td></tr>
+      <tr><td>6-Bombgozar Day.py</td><td>اعلام روزِ بمب مافیای بمب‌گذار</td></tr>
+      <tr><td>MafiaResponder.gs</td><td>کد Apps Script برای ثبت کلیک‌ها در Google Sheet</td></tr>
+      <tr><td>contacts.json</td><td>لیست بازیکنان دائمی</td></tr>
+      <tr><td>roles.csv</td><td>تخصیص نقش هر بازی (بعد از ارسال نقش‌ها ساخته می‌شود)</td></tr>
+      <tr><td>game_state.json</td><td>وضعیت پایدار بازی بین شب‌ها (eliminated، disciplinary_kicked، game_finalized، تنظیمات و شمارنده‌ها و …)</td></tr>
+      <tr><td>scores_log.json</td><td>رویدادهای شب/روز ثبت‌شده برای محاسبه‌ی امتیازها</td></tr>
+      <tr><td>results.csv</td><td>جدول امتیازات نهایی آخرین بازی (قابل باز کردن در Excel)</td></tr>
+      <tr><td>overall_ranking.json</td><td>تاریخچه‌ی تجمعی رتبه‌بندی بین همه‌ی بازی‌ها (تعداد بازی و مجموع امتیاز هر نفر) — با شروع بازی پاک نمی‌شود</td></tr>
+      <tr><td>overall_ranking.csv</td><td>رتبه‌بندی کل تا این لحظه: تعداد بازی، مجموع امتیاز و میانگین هر بازیکن (با دکمه‌ی رنکینگ به‌روزرسانی می‌شود)</td></tr>
+      <tr><td>Game Guideline.html / .md / .docx</td><td>همین راهنمای بازی</td></tr>
+    </tbody>
+  </table>
+
+</div>
+</body>
+</html>
